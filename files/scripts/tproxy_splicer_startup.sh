@@ -24,17 +24,17 @@ if [ -f "$router_config_file" ]; then
             ufw allow in on $MYIF to any
         fi
         # Save full path of map update into a variable
-        map_update="/opt/netfoundry/ebpf/objects/map_update"
+        map_update=/opt/netfoundry/ebpf/objects/map_update
         # Ziti Fabric Port/Transport
         ZITI_FPORT=$(cat /opt/netfoundry/ziti/ziti-router/config.yml |yq .ctrl.endpoint |awk -v FS=':' '{print $3}')
         ZITI_FTRANSPORT=$(cat /opt/netfoundry/ziti/ziti-router/config.yml |yq .ctrl.endpoint |awk -v FS=':' '{print $1}')
-        if [ $ZITI_FTRANSPORT == "tls"]; then
+        if [ "$ZITI_FTRANSPORT" == "tls" ]; then
             $map_update -I -c $MYIP -m 32 -l $ZITI_FPORT -h $ZITI_FPORT -t 0 -p tcp
         fi
         # Ziti Client Port/Transport
         ZITI_CPORT=$(cat /opt/netfoundry/ziti/ziti-router/config.yml |yq '.listeners[] | select(.binding == "edge").address' |awk -v FS=':' '{print $3}')
         ZITI_CTRANSPORT=$(cat /opt/netfoundry/ziti/ziti-router/config.yml |yq '.listeners[] | select(.binding == "edge").address' |awk -v FS=':' '{print $1}')
-        if [ $ZITI_CTRANSPORT == "tls" ]; then
+        if [ "$ZITI_CTRANSPORT" == "tls" ]; then
             $map_update -I -c $MYIP -m 32 -l $ZITI_CPORT -h $ZITI_CPORT -t 0 -p tcp
         fi
         # DNS
