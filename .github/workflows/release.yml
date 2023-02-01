@@ -19,8 +19,10 @@ jobs:
             size: 5000
           - name: large
             size: 10000
+
     outputs:
           release_tag: ${{ steps.version.outputs.release_tag }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -61,6 +63,7 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Create release
+        if: ${{ steps.release.outputs.upload_url }}
         uses: actions/create-release@v1
         id: release
         with:
