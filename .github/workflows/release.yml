@@ -48,6 +48,7 @@ jobs:
           path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
           
       - name: Get version
+        id: version
         run: |
           version=`files/objects/map_update -V`
           echo "::set-output name=release_tag::$version"
