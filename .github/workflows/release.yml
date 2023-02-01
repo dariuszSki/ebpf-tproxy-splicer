@@ -12,6 +12,13 @@ jobs:
       matrix:
         goos: [linux]
         goarch: [amd64]
+        map_type: 
+          - name: small
+            size: 1000
+          - name: medium
+            size: 5000
+          - name: large
+            size: 10000
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -30,28 +37,27 @@ jobs:
 
       - name: Tar Object File
         run: |
-          tar -cvzf tproxy_splicer.tar.gz --strip-components=1 -C files/ objects services scripts
+          tar -cvzf tproxy_splicer_${{matrix.map_type.name}}.tar.gz --strip-components=1 -C files/ objects scripts services
+
       - name: Get version
         run: echo "version=`files/objects/map_update -V`" >> $GITHUB_OUTPUT
         id: version
 
       - name: Create release
-        uses: actions/create-release@v1
+        uses: im-open/create-release@v3.1.2
         id: release
         with:
           draft: false
           prerelease: false
           release_name: v${{ steps.version.outputs.version }}
           tag_name: v${{ steps.version.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+          github-token: ${{ env.github.token }}
 
       - name: Upload a built artifact for release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        uses: im-open/upload-release-asset@v1.1.2
         with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: tproxy_splicer.tar.gz
-          asset_name: tproxy_splicer.tar.gz
+          github-token: ${{ env.github.token }}
+          upload_url: ${{ steps.release.outputs.asset-upload-url }}
+          asset_path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
+          asset_name: tproxy_splicer_${{matrix.map_type.name}}
           asset_content_type: application/gzip
