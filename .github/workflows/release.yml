@@ -45,7 +45,7 @@ jobs:
 
       - name: Create release
         uses: actions/create-release@v1
-        if: ${{ steps.release.outputs.upload_url }}
+        if: ${{ steps.release.outputs.upload_url != '' }}
         id: release
         with:
           draft: false
