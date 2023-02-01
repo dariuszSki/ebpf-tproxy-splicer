@@ -49,15 +49,15 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: v${{ steps.version.outputs.version }}
-          tag_name: v${{ steps.version.outputs.version }}
+          release-name: v${{ steps.version.outputs.version }}
+          tag-name: v${{ steps.version.outputs.version }}
           github-token: ${{ env.github.token }}
 
       - name: Upload a built artifact for release
         uses: im-open/upload-release-asset@v1.1.2
         with:
           github-token: ${{ env.github.token }}
-          upload_url: ${{ steps.release.outputs.asset-upload-url }}
-          asset_path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
-          asset_name: tproxy_splicer_${{matrix.map_type.name}}
-          asset_content_type: application/gzip
+          upload-url: ${{ steps.release.outputs.asset-upload-url }}
+          asset-path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
+          asset-name: tproxy_splicer_${{matrix.map_type.name}}
+          asset-content-type: application/gzip
