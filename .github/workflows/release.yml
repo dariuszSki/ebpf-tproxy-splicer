@@ -52,6 +52,7 @@ jobs:
           release-name: v${{ steps.version.outputs.version }}
           tag-name: v${{ steps.version.outputs.version }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          delete-existing-release: true
 
       - name: Upload a built artifact for release
         uses: im-open/upload-release-asset@v1.1.2
