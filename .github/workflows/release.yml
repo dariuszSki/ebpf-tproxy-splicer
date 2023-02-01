@@ -63,7 +63,6 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Create release
-        if: ${{ steps.release.outputs.upload_url }}
         uses: actions/create-release@v1
         id: release
         with:
