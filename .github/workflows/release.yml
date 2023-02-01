@@ -74,13 +74,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Upload a built artifact for release
+      - name: Upload a small artifact for release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
-          asset_name: tproxy_splicer_${{matrix.map_type.name}}
+          asset_path: tproxy_splicer_small/tproxy_splicer_small.tar.gz
+          asset_name: tproxy_splicer_small
+          asset_content_type: application/gzip
+          
+      - name: Upload a medium artifact for release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: tproxy_splicer_medium/tproxy_splicer_medium.tar.gz
+          asset_name: tproxy_splicer_medium
+          asset_content_type: application/gzip
+          
+      - name: Upload a large artifact for release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: tproxy_splicer_large/tproxy_splicer_large.tar.gz
+          asset_name: tproxy_splicer_large
           asset_content_type: application/gzip
 
