@@ -41,10 +41,10 @@ jobs:
         run: |
           tar -cvzf tproxy_splicer_${{matrix.map_type.name}}.tar.gz --strip-components=1 -C files/ objects scripts services
 
-      - name: Upload tproxy tar files to store
+      - name: Upload tproxy tar files to create_release
         uses: actions/upload-artifact@v3
         with:
-          name: dist-without-markdown
+          name: tproxy_splicer_${{matrix.map_type.name}}
           path: ./tproxy_splicer_${{matrix.map_type.name}}.tar.gz
           
       - name: Get version
